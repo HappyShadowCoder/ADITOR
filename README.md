@@ -38,3 +38,4 @@ Backend server for a web-based code editor with integrated weather, calendar, an
 - `OPENWEATHER_API_KEY` - OpenWeatherMap API key
 - `GOOGLE_API_KEY' - Gemini Key
 - `PORT` - Server port (default: 3000)
+- `SPOTIFY_CLIENT_SECRET` - Spotify API Key
