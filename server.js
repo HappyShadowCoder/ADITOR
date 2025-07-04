@@ -16,19 +16,22 @@ const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
 
 // Weather API route
-app.get('/api/weather', async (req, res) => {
+app.get("/api/weather", async (req, res) => {
   try {
-    let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    let ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 
-    // Fallback for local testing
-    if (!ip || ip === '::1' || ip.startsWith('127.') || ip.startsWith('::ffff:127')) {
-      console.log('Local IP detected, using fallback public IP for testing.');
-      ip = '110.224.171.77 '; 
+    if (
+      !ip ||
+      ip === "::1" ||
+      ip.startsWith("127.") ||
+      ip.startsWith("::ffff:127")
+    ) {
+      ip = "110.224.171.77";
     }
 
     const locationRes = await axios.get(`http://ip-api.com/json/${ip}`);
-    if (locationRes.data.status !== 'success') {
-      return res.status(400).json({ error: 'Could not determine location' });
+    if (locationRes.data.status !== "success") {
+      return res.status(400).json({ error: "Could not determine location" });
     }
 
     const { city, lat, lon } = locationRes.data;
@@ -39,26 +42,29 @@ app.get('/api/weather', async (req, res) => {
         params: {
           lat,
           lon,
-          units: 'metric',
-          appid: process.env.OPENWEATHER_API_KEY
-        }
+          units: "metric",
+          appid: process.env.OPENWEATHER_API_KEY,
+        },
       }
     );
 
+    const weatherData = weatherRes.data;
+    const weatherMain = weatherData.weather[0].main;
+
+    const tracks = weatherTracks[weatherMain] || weatherTracks["Clear"];
+    const randomTrackId = tracks[Math.floor(Math.random() * tracks.length)];
+
     res.json({
-      user_location: {
-        ip,
-        city,
-        lat,
-        lon
-      },
-      weather: weatherRes.data
+      user_location: { ip, city, lat, lon },
+      weather: weatherData,
+      trackId: randomTrackId,
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Failed to fetch weather' });
+    res.status(500).json({ error: "Failed to fetch weather" });
   }
 });
+
 
 
 
@@ -130,8 +136,6 @@ app.get('/api/ip', (req, res) => {
 
 // Spotify
 
-const axios = require('axios');
-
 const weatherTracks = {
   Clear: [
     "3AhXZa8sUQht0UEdBJgpGc", // Mr. Blue Sky
@@ -154,12 +158,6 @@ const weatherTracks = {
     "2dLLR6qlu5UJ5gk0dKz0h3"  // Winter Song
   ]
 };
-
-const weatherMain = weatherData.weather[0].main; // e.g., "Clear", "Rain", etc.
-
-const tracks = weatherTracks[weatherMain] || weatherTracks["Clear"];
-const randomTrackId = tracks[Math.floor(Math.random() * tracks.length)];
-
 
 async function getAccessToken() {
   const res = await axios.post(
