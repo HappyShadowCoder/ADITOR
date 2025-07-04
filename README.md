@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Code Editor Backend
 
 Backend server for a web-based code editor with integrated weather, calendar, and AI assistant features.
@@ -37,16 +36,5 @@ Backend server for a web-based code editor with integrated weather, calendar, an
 ## Environment Variables
 
 - `OPENWEATHER_API_KEY` - OpenWeatherMap API key
-- `GOOGLE_CLIENT_ID` - Google OAuth client ID
-- `GOOGLE_CLIENT_SECRET` - Google OAuth client secret
-- `OPENAI_API_KEY` - OpenAI API key
+- `GOOGLE_API_KEY' - Gemini Key
 - `PORT` - Server port (default: 3000)
-
-## Security Notes
-
-- Never commit your `.env` file to version control
-- Use environment variables for sensitive information
-- Implement proper error handling and rate limiting in production
-=======
-# CodeEditor
->>>>>>> b97365e939a07877d86af33fda4b1b7eb6e5581f
