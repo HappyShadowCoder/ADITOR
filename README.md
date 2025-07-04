@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Code Editor Backend
 
 Backend server for a web-based code editor with integrated weather, calendar, and AI assistant features.
@@ -46,3 +47,6 @@ Backend server for a web-based code editor with integrated weather, calendar, an
 - Never commit your `.env` file to version control
 - Use environment variables for sensitive information
 - Implement proper error handling and rate limiting in production
+=======
+# CodeEditor
+>>>>>>> b97365e939a07877d86af33fda4b1b7eb6e5581f
