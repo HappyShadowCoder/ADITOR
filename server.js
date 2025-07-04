@@ -122,10 +122,71 @@ app.post('/api/ai/analyze', async (req, res) => {
   }
 });
 
+// Get API Address
 app.get('/api/ip', (req, res) => {
   const ip = req.headers['x-forwarded-for']?.split(',').shift() || req.socket.remoteAddress;
   res.json({ ip });
 });
+
+// Spotify
+
+const axios = require('axios');
+
+const weatherTracks = {
+  Clear: [
+    "3AhXZa8sUQht0UEdBJgpGc", // Mr. Blue Sky
+    "7qiZfU4dY1lWllzX7mPBI3", // Shape of You
+    "0VjIjW4GlUZAMYd2vXMi3b"  // Blinding Lights
+  ],
+  Rain: [
+    "2RSHsoi04658QL5xgQVov3", // Set Fire To The Rain
+    "3YBZIN3rekqsKxbJc9FZko", // Someone Like You
+    "4iV5W9uYEdYUVa79Axb7Rh"  // Umbrella
+  ],
+  Clouds: [
+    "1kPpge9JDLpcj15qgrPbYX", // Demons
+    "1jYiIOC5d6soxkJP81fxq2", // Counting Stars
+    "5ChkMS8OtdzJeqyybCc9R5"  // Don't Stop Believin'
+  ],
+  Snow: [
+    "2VxeLyX666F8uXCJ0dZF8B", // Let It Go
+    "0k0vFacOHNuArLWMiH60p7", // Sweater Weather
+    "2dLLR6qlu5UJ5gk0dKz0h3"  // Winter Song
+  ]
+};
+
+const weatherMain = weatherData.weather[0].main; // e.g., "Clear", "Rain", etc.
+
+const tracks = weatherTracks[weatherMain] || weatherTracks["Clear"];
+const randomTrackId = tracks[Math.floor(Math.random() * tracks.length)];
+
+
+async function getAccessToken() {
+  const res = await axios.post(
+    'https://accounts.spotify.com/api/token',
+    new URLSearchParams({ grant_type: 'client_credentials' }),
+    {
+      headers: {
+        Authorization: `Basic ${Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64')}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }
+  );
+
+  return res.data.access_token;
+}
+
+async function getTrack(trackId) {
+  const token = await getAccessToken();
+  const res = await axios.get(`https://api.spotify.com/v1/tracks/${trackId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log(res.data);
+}
+
+getTrack('7ouMYWpwJ422jRcDASZB7P'); // Example track ID
 
 
 const PORT = process.env.PORT || 3000;
