@@ -40,26 +40,26 @@ export default function Settings() {
             rounded-xl py-15`}>
                 <div className="flex flex-col text-left px-5 text-xl 
                 justify-center h-full space-y-5">
-                    <p onClick={() => setstate('account')} 
+                    <button onClick={() => setstate('account')} 
                     className={`${state==='account'? mode==="dark"? "bg-white/60":"bg-black/60" : mode==="dark"? "bg-transparent hover:bg-white/30":"bg-transparent hover:bg-black/30"}
                     px-5 rounded-full py-1 transition-all duration-500 ease-in-out
-                    flex items-center`} style={{fontFamily:"Oswald"}}>Account</p>
-                    <p onClick={() => setstate('profile')} 
+                    flex items-center`} style={{fontFamily:"Oswald"}}>Account</button>
+                    <button onClick={() => setstate('profile')} 
                     className={`${state==='profile'? mode==="dark"? "bg-white/60":"bg-black/60" : mode==="dark"? "bg-transparent hover:bg-white/30":"bg-transparent hover:bg-black/30"}
                     px-5 rounded-full py-1 transition-all duration-500 ease-in-out
-                    flex items-center`} style={{fontFamily:"Oswald"}}>Profile</p>
-                    <p onClick={() => setstate('editor')} 
+                    flex items-center`} style={{fontFamily:"Oswald"}}>Profile</button>
+                    <button onClick={() => setstate('editor')} 
                     className={`${state==='editor'? mode==="dark"? "bg-white/60":"bg-black/60" : mode==="dark"? "bg-transparent hover:bg-white/30":"bg-transparent hover:bg-black/30"}
                     px-5 rounded-full py-1 transition-all duration-500 ease-in-out
-                    flex items-center`} style={{fontFamily:"Oswald"}}>Editor</p>
-                    <p onClick={() => setstate('language')} 
+                    flex items-center`} style={{fontFamily:"Oswald"}}>Editor</button>
+                    <button onClick={() => setstate('language')} 
                     className={`${state==='language'? mode==="dark"? "bg-white/60":"bg-black/60" : mode==="dark"? "bg-transparent hover:bg-white/30":"bg-transparent hover:bg-black/30"}
                     px-5 rounded-full py-1 transition-all duration-500 ease-in-out
-                    flex items-center`} style={{fontFamily:"Oswald"}}>Language</p>
-                    <p onClick={() => navigate(-1)}
+                    flex items-center`} style={{fontFamily:"Oswald"}}>Language</button>
+                    <button onClick={() => navigate(-1)}
                     className={`${state==='back'? mode==="dark"? "bg-white/60":"bg-black/60" : mode==="dark"? "bg-transparent hover:bg-white/30":"bg-transparent hover:bg-black/30"}
                     px-5 rounded-full py-1 transition-all duration-500 ease-in-out
-                    flex items-center`} style={{fontFamily:"Oswald"}}>Back</p>
+                    flex items-center`} style={{fontFamily:"Oswald"}}>Back</button>
                 </div>
             </div>
             <div className="flex flex-col flex-1 h-full

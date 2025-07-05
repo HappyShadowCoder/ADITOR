@@ -6,20 +6,8 @@ import TopBar from "./Components/Home/TopBar";
 import BottomPanel from "./Components/Home/BottomPanel";
 
 
-const speak = (text) => {
-    if (!text) return;
-    
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = 1;
-    utterance.pitch = 1;
-
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utterance);
-}
-
 export default function Aditor(){
-    const [weather, setweather] = useState(sessionStorage.getItem("weather" || "rain"));
+    const [weather, setweather] = useState(sessionStorage.getItem("weather") || "snow");
     const navigate = useNavigate();
     const { t, i18n } = useTranslation();
 
@@ -36,12 +24,12 @@ export default function Aditor(){
             });
         }, []);*/} 
 
-        const handleweather = (e) => {
-            setweather(e);
-            sessionStorage.setItem("weather", e); // Corrected line: "weather" is the key, e is the value
-        }
+    const handleweather = (e) => {
+        setweather(e);
+        sessionStorage.setItem("weather",e);
+    }
 
-    const [mode, setmode] = useState(sessionStorage.getItem("mode") || "dark"); 
+    const [mode, setmode] = useState(sessionStorage.getItem("mode") || "light"); 
     
     const switchTheme = () => {
         if(mode==="dark"){
@@ -59,7 +47,7 @@ export default function Aditor(){
             <TopBar classname={mode==="dark"?
 "bg-gradient-to-br from-[#0f0c29]/80 via-[#1f1c4c]/70 to-[#302b63]/70 text-[#e0e0e0]"
     :
-"bg-gradient-to-br from-[#fdfbfb]/80 via-[#fceabb]/70 to-[#ffdde1]/70 text-[#222831]"
+"bg-gradient-to-br from-[#fdfbfb]/80 via-[#fceabb]/50 to-[#ffdde1]/40 text-[#222831]"
             } 
             theme={mode} switchTheme={switchTheme} weather={weather} handleweather={handleweather}/>
 
@@ -72,9 +60,9 @@ export default function Aditor(){
                     <div className="flex-1 bg-black/20 z-2
                     rounded-xl mx-5 my-2 h-fit">
                         <EditorPanel classname={mode==="dark"?
-"bg-gradient-to-br from-[#0f0c29]/80 via-[#1f1c4c]/70 to-[#302b63]/70 text-[#e0e0e0]"
+"bg-gradient-to-br from-[#0f0c29]/50 via-[#1f1c4c]/40 to-[#302b63]/40 text-[#e0e0e0]"
     :
-"bg-gradient-to-br from-[#fdfbfb]/80 via-[#fceabb]/70 to-[#ffdde1]/70 text-[#222831]"
+"bg-gradient-to-br from-[#fdfbfb]/30 via-[#fceabb]/20 to-[#ffdde1]/20 text-[#222831]"
                         }></EditorPanel>
                     </div>
 
@@ -84,8 +72,9 @@ export default function Aditor(){
                     <BottomPanel classname={mode==="dark"?
 "bg-gradient-to-br from-[#0f0c29]/80 via-[#1f1c4c]/70 to-[#302b63]/70 text-[#e0e0e0]"
     :
-"bg-gradient-to-br from-[#fdfbfb]/80 via-[#fceabb]/70 to-[#ffdde1]/70 text-[#222831]"
-                        }></BottomPanel>
+"bg-gradient-to-br from-[#fdfbfb]/50 via-[#fceabb]/40 to-[#ffdde1]/40 text-[#222831]"
+                        } 
+                        mode={mode}></BottomPanel>
 
             </div>
         </div>

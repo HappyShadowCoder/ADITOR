@@ -20,7 +20,11 @@ const Clock = ({classname}) => {
     return () => clearInterval(interval);
   }, []);
 
-  return <p className={classname}>{time}</p>;
+  return (
+  <>
+    <p className={classname} style={{fontFamily:"Satoshi"}}>{time}</p>
+  </>
+  )
 };
 
 export default Clock;

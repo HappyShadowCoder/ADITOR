@@ -1,9 +1,11 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const axios = require('axios');
-const { google } = require('googleapis');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+import dotenv from 'dotenv';
+import express from 'express';
+import cors from 'cors';
+import axios from 'axios';
+import { google } from 'googleapis';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -18,52 +20,113 @@ const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 // Weather API route
 app.get("/api/weather", async (req, res) => {
   try {
-    let ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+    // Default to New York coordinates if IP lookup fails
+    let location = {
+      city: "New York",
+      lat: 40.7128,
+      lon: -74.0060
+    };
 
-    if (
-      !ip ||
-      ip === "::1" ||
-      ip.startsWith("127.") ||
-      ip.startsWith("::ffff:127")
-    ) {
-      ip = "110.224.171.77";
+    // Try to get location from IP if not in development
+    try {
+      const ip = req.headers["x-forwarded-for"]?.split(',')[0] || req.socket.remoteAddress;
+      if (ip && ip !== '::1' && !ip.startsWith('127.')) {
+        const locationRes = await axios.get(`http://ip-api.com/json/${ip}`);
+        if (locationRes.data.status === "success") {
+          location = {
+            city: locationRes.data.city,
+            lat: locationRes.data.lat,
+            lon: locationRes.data.lon
+          };
+        }
+      }
+    } catch (locationError) {
+      console.log("Using default location due to error:", locationError.message);
     }
 
-    const locationRes = await axios.get(`http://ip-api.com/json/${ip}`);
-    if (locationRes.data.status !== "success") {
-      return res.status(400).json({ error: "Could not determine location" });
-    }
-
-    const { city, lat, lon } = locationRes.data;
-
+    // Get weather from WeatherAPI
     const weatherRes = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather`,
+      `http://api.weatherapi.com/v1/current.json`,
       {
         params: {
-          lat,
-          lon,
-          units: "metric",
-          appid: process.env.OPENWEATHER_API_KEY,
-        },
+          key: process.env.WEATHER_API_KEY,
+          q: `${location.lat},${location.lon}`,
+          aqi: 'no'
+        }
       }
     );
 
     const weatherData = weatherRes.data;
-    const weatherMain = weatherData.weather[0].main;
+    const weatherMain = weatherData.current.condition.text.toLowerCase();
 
-    const tracks = weatherTracks[weatherMain] || weatherTracks["Clear"];
+    // Map WeatherAPI conditions to our track categories
+    let weatherCategory = "Clear";
+    if (weatherMain.includes('rain')) {
+      weatherCategory = "Rain";
+    } else if (weatherMain.includes('cloud')) {
+      weatherCategory = "Clouds";
+    } else if (weatherMain.includes('snow')) {
+      weatherCategory = "Snow";
+    } else if (weatherMain.includes('thunder') || weatherMain.includes('storm')) {
+      weatherCategory = "Thunder";
+    }
+
+    const tracks = weatherTracks[weatherCategory] || weatherTracks["Clear"];
     const randomTrackId = tracks[Math.floor(Math.random() * tracks.length)];
 
     res.json({
-      user_location: { ip, city, lat, lon },
-      weather: weatherData,
+      user_location: {
+        city: location.city,
+        lat: location.lat,
+        lon: location.lon
+      },
+      weather: {
+        main: weatherCategory,
+        temp: weatherData.current.temp_c,
+        condition: weatherData.current.condition
+      },
       trackId: randomTrackId,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch weather" });
+    console.error("Weather API error:", err.response?.data || err.message);
+    res.status(500).json({ 
+      error: "Failed to fetch weather",
+      details: err.response?.data?.error?.message || err.message 
+    });
   }
 });
+
+
+
+
+// Calendar API route
+// app.get('/api/calendar/events', async (req, res) => {
+//   try {
+//     const auth = new google.auth.GoogleAuth({
+//       credentials: {
+//         client_id: process.env.GOOGLE_CLIENT_ID,
+//         client_secret: process.env.GOOGLE_CLIENT_SECRET,
+//         refresh_token: req.headers.refresh_token
+//       },
+//       scopes: ['https://www.googleapis.com/auth/calendar.readonly']
+//     });
+
+//     const calendar = google.calendar({ version: 'v3', auth });
+//     const now = new Date();
+//     const events = await calendar.events.list({
+//       calendarId: 'primary',
+//       timeMin: now.toISOString(),
+//       maxResults: 5,
+//       singleEvents: true,
+//       orderBy: 'startTime'
+//     });
+
+//     res.json(events.data.items);
+//   } catch (error) {
+//     console.error('Calendar API error:', error);
+//     res.status(500).json({ error: 'Failed to fetch calendar events' });
+//   }
+// });
 
 // AI Assistant route
 app.post('/api/ai/analyze', async (req, res) => {

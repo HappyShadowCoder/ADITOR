@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 export default function EditorPref() {
     const [weather, setWeather] = useState(sessionStorage.getItem("weather") || "rain");
     const [mode, setmode] = useState(sessionStorage.getItem("mode") || "dark");
+    const [fontsize, setfontsize] = useState(parseInt(sessionStorage.getItem("fontsize")) || 18)
+    const [font, setfont] = useState(parseInt(sessionStorage.getItem("font")) || "sans-serif")
     const navigate = useNavigate()
     const updateweather = (e) => {
       setWeather(e);
@@ -15,7 +17,17 @@ export default function EditorPref() {
 
     const updatetheme = (e) => {
       setmode(e)
-      sessionStorage.setItem("theme",e)
+      sessionStorage.setItem("mode",e)
+    }
+
+    const handlefontsizechange = (e) => {
+      setfontsize(e)
+      sessionStorage.setItem("fontsize",e);
+    }
+
+    const handlefontchange = (e) => {
+      setfont(e)
+      sessionStorage.setItem("font",e);
     }
 
     return (
@@ -75,6 +87,8 @@ export default function EditorPref() {
         <div className="flex flex-col">
             <label className="mb-1 text-sm font-medium text-white">Text Size</label>
             <input
+            value={fontsize}
+            onChange={(e) => handlefontsizechange(e.target.value)}
             type="number"
             min="8"
             max="48"
@@ -85,10 +99,13 @@ export default function EditorPref() {
 
         <div className="flex flex-col">
             <label className="mb-1 text-sm font-medium text-white">Font</label>
-            <select className="w-full h-10 px-4 rounded-xl bg-white/30 text-black font-semibold">
+            <select 
+            value={font}
+            onChange={(e) => handlefontchange(e.target.value)}
+            className="w-full h-10 px-4 rounded-xl bg-white/30 text-black font-semibold">
             <option>Satoshi</option>
             <option>Oswald</option>
-            <option>Fira Code</option>
+            <option>Sans Serif</option>
             <option>JetBrains Mono</option>
             </select>
         </div>
