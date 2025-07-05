@@ -1,8 +1,8 @@
-# Code Editor Backend
+# Backend
 
 Backend server for a web-based code editor with integrated weather, calendar, and AI assistant features.
 
-# Code Editor Frotnend
+# Frotnend
 
 UI/ UX and display of frontend, inside Folder - ADITOR, pushed for code base only, will later be pushed with gh pages 
 
