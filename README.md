@@ -6,6 +6,10 @@ Backend server for a web-based code editor with integrated weather, calendar, an
 
 UI/ UX and display of frontend, inside Folder - ADITOR, pushed for code base only, will later be pushed with gh pages 
 
+## Screenshot
+
+![A screenshot of the project's main screen](1.jpeg)
+
 ## About
 
 This is just a prototype, final working prototype is under development and will be introduced with sleek animations, higher workability, more options!
