@@ -2,6 +2,14 @@
 
 Backend server for a web-based code editor with integrated weather, calendar, and AI assistant features.
 
+# Code Editor Frotnend
+
+UI/ UX and display of frontend, inside Folder - ADITOR, pushed for code base only, will later be pushed with gh pages 
+
+## About
+
+This is just a prototype, final working prototype is under development and will be introduced with sleek animations, higher workability, more options!
+
 ## Features
 
 - Weather API integration (OpenWeatherMap)
