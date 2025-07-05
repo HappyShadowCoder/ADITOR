@@ -10,6 +10,14 @@ UI/ UX and display of frontend, inside Folder - ADITOR, pushed for code base onl
 
 This is just a prototype, final working prototype is under development and will be introduced with sleek animations, higher workability, more options!
 
+## Current Developements
+
+The backend is ready with Spotify API, Weather API, and Gemini Configuration, 
+whilst the weather API i under development.
+
+The frontend is a wireframe with all the necesary details like time, weather, files, editor, output, 
+whilst some changes are underway.
+
 ## Features
 
 - Weather API integration (OpenWeatherMap)
