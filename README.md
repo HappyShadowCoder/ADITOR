@@ -1,10 +1,10 @@
-## Backend
+## Challenges
 
-Backend server for a web-based code editor with integrated weather, calendar, and AI assistant features.
+Creative 404 / Error Handling 
 
-## Frotnend
+Difficulty: Easy 
 
-UI/ UX and display of frontend, inside Folder - ADITOR, pushed for code base only, will later be pushed with gh pages 
+Created a creative and interactive Lost In Space 404 page that pops up either via clicking on Lost In Space in home or by entering faulty url
 
 ## Screenshot
 
