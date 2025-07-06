@@ -1,10 +1,28 @@
 ## Challenges
 
-Creative 404 / Error Handling 
+`Creative 404 / Error Handling `
 
 Difficulty: Easy 
 
 Created a creative and interactive Lost In Space 404 page that pops up either via clicking on Lost In Space in home or by entering faulty url
+
+`Dark Mode Support`
+
+Difficulty: Easy 
+
+Added dark and light modes with their theme colors and gradients to make the web app more customisable and beautiful
+
+`Custom Loading States` 
+
+Difficulty: Easy 
+
+Added a custom Loading state for Spotify API with an astronaut and text appearing below him
+
+`Dynamic Theme Based on API Data` 
+
+Difficulty: Medium 
+
+Added the background to change as per the weather data for the user adding a sense of realism and originality
 
 ## Screenshot
 
