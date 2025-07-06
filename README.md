@@ -24,6 +24,18 @@ Difficulty: Medium
 
 Added the background to change as per the weather data for the user adding a sense of realism and originality
 
+`Multilingual Support`
+
+Difficulty: Medium 
+
+Made the core buttons be translatable easily in common languages for user interaction
+
+`Text-To-Speech for Content`
+
+Difficulty: Hard 
+
+Added a way to convert text to speech that can be used via the Welcome Message button
+
 ## Screenshot
 
 ![A screenshot of the project's main screen](1.jpeg)
