@@ -85,7 +85,7 @@ whilst some changes are underway.
 
 ## Environment Variables
 
-- `OPENWEATHER_API_KEY` - OpenWeatherMap API key
+- `WEATHER_API_KEY` - Weatherapi API key
 - `GOOGLE_API_KEY' - Gemini Key
 - `PORT` - Server port (default: 3000)
 - `SPOTIFY_CLIENT_SECRET` - Spotify API Key
